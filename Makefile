@@ -1,13 +1,18 @@
-CXX=g++
+CXX=gcc
 CFLAGS=-g -Wall
-LFLAGS=
-TARGET=main
+LFLAGS= # -lws2811
 
-all: $(TARGET)
+all: libws2811.a main
 
-$(TARGET): $(TARGET).cpp
-	$(CXX) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
+libws2811.a: rpihw.c dma.c pwm.c pcm.c ws2811.c mailbox.c
+	gcc -c rpihw.c dma.c pwm.c pcm.c ws2811.c mailbox.c
+	ar rcs libws2811.a rpihw.o dma.o pwm.o pcm.o ws2811.o mailbox.o
+
+main: libws2811.a
+	gcc -g -Wall -L. main.c -o main -lws2811
 
 clean:
-	rm -rf $(TARGET)
+	rm -rf main
 	rm -rf *.dSYM
+	rm -rf *.a
+	rm -rf *.o
