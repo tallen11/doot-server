@@ -19,7 +19,7 @@ static int LED_COUNT = 60;
 #define REC_SIZE (30 * COLOR_COUNT)
 
 void setupNet();
-void setupLEDStrip();
+ws2811_t setupLEDStrip();
 
 int main() {
 	int s = socket(AF_INET, SOCK_DGRAM, 0);
@@ -136,6 +136,29 @@ void setupNet() {
 
 }
 
-void setupLEDStrip() {
+ws2811_t setupLEDStrip() {
+	ws2811_t ledString;
+
+	ws2811_channel_t c0;
+	c0.gpionum = 18;
+	c0.invert = 0;
+	c0.count = LED_COUNT;
+	c0.strip_type = WS2811_STRIP_RGB;
+	c0.brightness = 255;
+
+	ws2811_channel_t c1;
+	c1.gpionum = 0;
+	c1.invert = 0;
+	c1.count = 0;
+	c1.brightness = 0;
+
+	ledString.freq = 800000;
+	ledString.dmanum = 5;
+	ledString.channel[0] = c0;
+	ledString.channel[1] = c1;
+
+	ws2811_return_t ret = ws2811_init(&ledString);
+	assert(ret == WS2811_SUCCESS);
 	
+	return ledString;
 }
