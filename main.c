@@ -128,7 +128,7 @@ int main() {
 			currentBuf[i+2] = blue;
 		}
 		
-        ret = ws2811_render(&ledString);
+        ws2811_return_t ret = ws2811_render(&ledString);
         if (ret != WS2811_SUCCESS) { }
 	}
 
