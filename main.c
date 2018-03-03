@@ -8,6 +8,7 @@
 // #include <sys/mman.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 // #include <rpi_ws281x/ws2811.h>
 #include "clk.h"
 #include "gpio.h"
