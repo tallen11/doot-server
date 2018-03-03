@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include <assert.h>
 #include "clk.h"
 #include "gpio.h"
 #include "dma.h"
