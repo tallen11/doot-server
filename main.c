@@ -48,7 +48,7 @@ int main() {
 	// Setup LED strip
 	ws2811_t ledStrip;
 	int lss = setupLEDStrip(&ledStrip);
-	assert(less == 0);
+	assert(lss == 0);
 
 	uint8_t currentBuf[REC_SIZE];
 	for (int i = 0; i < REC_SIZE; ++i) {
