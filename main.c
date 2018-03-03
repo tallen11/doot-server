@@ -19,7 +19,10 @@ static int COLOR_COUNT = 3;
 static int LED_COUNT = 60;
 #define REC_SIZE (30 * COLOR_COUNT)
 
+const float REFRESH_RATE = 60.0f;
 const float P_CONST = 0.25f;
+
+int setupLEDStrip(ws2811_t &ledStrip);
 
 int main() {
 	// Setup socket...
@@ -39,43 +42,44 @@ int main() {
 	}
 
 	struct sockaddr_in remaddr;
-	unsigned char buf[REC_SIZE];
+	uint8_t buf[REC_SIZE];
 	socklen_t addrlen = sizeof(remaddr);
 
 	// Setup LED strip
 	ws2811_t ledString;
-	ws2811_channel_t c0;
-	c0.gpionum = 18;
-	c0.invert = 0;
-	c0.count = LED_COUNT;
-	c0.strip_type = WS2811_STRIP_RGB;
-	c0.brightness = 255;
+	setupLEDStrip(&ledString);
+	// ws2811_channel_t c0;
+	// c0.gpionum = 18;
+	// c0.invert = 0;
+	// c0.count = LED_COUNT;
+	// c0.strip_type = WS2811_STRIP_RGB;
+	// c0.brightness = 255;
 
-	ws2811_channel_t c1;
-	c1.gpionum = 0;
-	c1.invert = 0;
-	c1.count = 0;
-	c1.brightness = 0;
+	// ws2811_channel_t c1;
+	// c1.gpionum = 0;
+	// c1.invert = 0;
+	// c1.count = 0;
+	// c1.brightness = 0;
 
-	ledString.freq = 800000;
-	ledString.dmanum = 5;
-	ledString.channel[0] = c0;
-	ledString.channel[1] = c1;
+	// ledString.freq = 800000;
+	// ledString.dmanum = 5;
+	// ledString.channel[0] = c0;
+	// ledString.channel[1] = c1;
 
-	ws2811_return_t ret;
-	ret = ws2811_init(&ledString);
-	if (ret != WS2811_SUCCESS) {
-		return 0;
+	// ws2811_return_t ret;
+	// ret = ws2811_init(&ledString);
+	// if (ret != WS2811_SUCCESS) {
+	// 	return 0;
+	// }
+
+	uint8_t currentBuf[REC_SIZE];
+	for (int i = 0; i < REC_SIZE; ++i) {
+		currentBuf[i] = 0;
 	}
 
-	unsigned char currentBuf[REC_SIZE];
+	uint8_t targetBuf[REC_SIZE];
 	for (int i = 0; i < REC_SIZE; ++i) {
-		currentBuf[i] = 0x0;
-	}
-
-	unsigned char targetBuf[REC_SIZE];
-	for (int i = 0; i < REC_SIZE; ++i) {
-		targetBuf[i] = 0x0;
+		targetBuf[i] = 0;
 	}
 
 	clock_t lastTime = clock();
@@ -90,7 +94,7 @@ int main() {
 
 		clock_t currentTime = clock();
 		float diff = ((float)(currentTime - lastTime) / (float)CLOCKS_PER_SEC) * 1000.0;
-		if (diff < (1.0f / 60.0f) * 1000.0f) {
+		if (diff < (1.0f / REFRESH_RATE) * 1000.0f) {
 			continue;
 		}
 
@@ -126,6 +130,33 @@ int main() {
 		
         ret = ws2811_render(&ledString);
         if (ret != WS2811_SUCCESS) { }
+	}
+
+	return 0;
+}
+
+int setupLEDStrip(ws2811_t *ledStrip) {
+	ws2811_channel_t c0;
+	c0.gpionum = 18;
+	c0.invert = 0;
+	c0.count = LED_COUNT;
+	c0.strip_type = WS2811_STRIP_RGB;
+	c0.brightness = 255;
+
+	ws2811_channel_t c1;
+	c1.gpionum = 0;
+	c1.invert = 0;
+	c1.count = 0;
+	c1.brightness = 0;
+
+	ledstring->freq = 800000;
+	ledstring->dmanum = 5;
+	ledstring->channel[0] = c0;
+	ledstring->channel[1] = c1;
+
+	ws2811_return_t = ws2811_init(ledstring);
+	if (ret != WS2811_SUCCESS) {
+		return -1;
 	}
 
 	return 0;
