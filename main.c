@@ -1,15 +1,11 @@
-// #include <iostream>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-// #include <netdb.h>
 #include <arpa/inet.h>
 #include <stdint.h>
-// #include <sys/mman.h>
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-// #include <rpi_ws281x/ws2811.h>
 #include "clk.h"
 #include "gpio.h"
 #include "dma.h"
@@ -37,15 +33,12 @@ int main() {
 
 	int bindStatus = bind(s, (struct sockaddr*)&myaddr, sizeof(myaddr));
 	if (bindStatus < 0) {
-		// std::cerr << "Error binding socket..." << std::endl;
-		// exit(0);
 		return 0;
 	}
 
 	struct sockaddr_in remaddr;
 	unsigned char buf[REC_SIZE];
 	socklen_t addrlen = sizeof(remaddr);
-	// std::cout << "Waiting..." << std::endl;
 
 	ws2811_t ledString;
 
@@ -70,8 +63,6 @@ int main() {
 	ws2811_return_t ret;
 	ret = ws2811_init(&ledString);
 	if (ret != WS2811_SUCCESS) {
-		// std::cerr << "Failed initializing LED strip" << std::endl;
-		// exit(0);
 		return 0;
 	}
 
@@ -133,10 +124,8 @@ int main() {
 			currentBuf[i+2] = blue;
 		}
 		
-                ret = ws2811_render(&ledString);
-                if (ret != WS2811_SUCCESS) {
-
-                }
+        ret = ws2811_render(&ledString);
+        if (ret != WS2811_SUCCESS) { }
 	}
 
 	return 0;
