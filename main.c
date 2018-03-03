@@ -18,11 +18,12 @@ static int COLOR_COUNT = 3;
 static int LED_COUNT = 60;
 #define REC_SIZE (30 * COLOR_COUNT)
 
+void setupNet();
+void setupLEDStrip();
+
 int main() {
 	int s = socket(AF_INET, SOCK_DGRAM, 0);
 	if (s < 0) {
-		// std::cerr << "Error creating socket..." << std::endl;
-		// exit(0);
 		return 0;
 	}
 
@@ -131,3 +132,10 @@ int main() {
 	return 0;
 }
 
+void setupNet() {
+
+}
+
+void setupLEDStrip() {
+	
+}
