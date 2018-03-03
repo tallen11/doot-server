@@ -46,31 +46,9 @@ int main() {
 	socklen_t addrlen = sizeof(remaddr);
 
 	// Setup LED strip
-	ws2811_t ledString;
-	setupLEDStrip(&ledString);
-	// ws2811_channel_t c0;
-	// c0.gpionum = 18;
-	// c0.invert = 0;
-	// c0.count = LED_COUNT;
-	// c0.strip_type = WS2811_STRIP_RGB;
-	// c0.brightness = 255;
-
-	// ws2811_channel_t c1;
-	// c1.gpionum = 0;
-	// c1.invert = 0;
-	// c1.count = 0;
-	// c1.brightness = 0;
-
-	// ledString.freq = 800000;
-	// ledString.dmanum = 5;
-	// ledString.channel[0] = c0;
-	// ledString.channel[1] = c1;
-
-	// ws2811_return_t ret;
-	// ret = ws2811_init(&ledString);
-	// if (ret != WS2811_SUCCESS) {
-	// 	return 0;
-	// }
+	ws2811_t ledStrip;
+	int lss = setupLEDStrip(&ledStrip);
+	assert(less == 0);
 
 	uint8_t currentBuf[REC_SIZE];
 	for (int i = 0; i < REC_SIZE; ++i) {
@@ -120,15 +98,15 @@ int main() {
 			uint32_t color = (0 << 24) | (red << 16) | (green << 8) | blue;
 			size_t index = i / 3;
 			
-			ledString.channel[0].leds[index] = color;
-			ledString.channel[0].leds[LED_COUNT - 1 - index] = color;
+			ledStrip.channel[0].leds[index] = color;
+			ledStrip.channel[0].leds[LED_COUNT - 1 - index] = color;
 
 			currentBuf[i] = red;
 			currentBuf[i+1] = green;
 			currentBuf[i+2] = blue;
 		}
 		
-        ws2811_return_t ret = ws2811_render(&ledString);
+        ws2811_return_t ret = ws2811_render(&ledStrip);
         if (ret != WS2811_SUCCESS) { }
 	}
 
