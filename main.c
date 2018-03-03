@@ -22,7 +22,7 @@ static int LED_COUNT = 60;
 const float REFRESH_RATE = 60.0f;
 const float P_CONST = 0.25f;
 
-int setupLEDStrip(ws2811_t &ledStrip);
+int setupLEDStrip(ws2811_t *ledStrip);
 
 int main() {
 	// Setup socket...
