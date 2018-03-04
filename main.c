@@ -109,7 +109,7 @@ int main() {
 
 			// Create 32 bit color from individual channels...
 			uint32_t color = channelsToColor(red, green, blue);
-			size_t index = i / 3;
+			size_t index = LED_COUNT - 1 - (i / 3);
 			
 			// Update LED strip...
 			ledStrip.channel[0].leds[index] = color;
