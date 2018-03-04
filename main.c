@@ -23,6 +23,7 @@ const float REFRESH_RATE = 60.0f;
 const float P_CONST = 0.25f;
 
 int setupLEDStrip(ws2811_t *ledStrip);
+uint32_t channelsToColor(uint8_t red, uint8_t green, uint8_t blue);
 
 int main() {
 	// Setup socket...
@@ -104,7 +105,7 @@ int main() {
 			uint8_t blue = (uint8_t)(blue_c + blue_pid);
 
 			// Create 32 bit color from individual channels...
-			uint32_t color = (0 << 24) | (red << 16) | (green << 8) | blue;
+			uint32_t color = channelsToColor(red, green, blue);
 			size_t index = i / 3;
 			
 			// Update LED strip...
@@ -150,4 +151,8 @@ int setupLEDStrip(ws2811_t *ledStrip) {
 	}
 
 	return 0;
+}
+
+uint32_t channelsToColor(uint8_t red, uint8_t green, uint8_t blue) {
+	return (0 << 24) | (red << 16) | (green << 8) | blue;
 }
