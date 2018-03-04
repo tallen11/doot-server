@@ -13,6 +13,7 @@
 #include "pwm.h"
 #include "version.h"
 #include "ws2811.h"
+#include "pid-controller/pid.h"
 
 static short PORT = 1153;
 static int COLOR_COUNT = 3;
@@ -62,6 +63,8 @@ int main() {
 	for (int i = 0; i < REC_SIZE; ++i) {
 		targetBuf[i] = 0;
 	}
+
+	// pid_controller_t* pid = pid_new(P_CONST, 0.0f, 0.0f, REC_SIZE);
 
 	clock_t lastTime = clock();
 	for (;;) {
